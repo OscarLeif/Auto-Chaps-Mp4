@@ -13,7 +13,7 @@
 		<Button x:Name="ButtonBrowse" Content="Browse" HorizontalAlignment="Left" Margin="216,97,0,0" VerticalAlignment="Top" Width="75" Click="ButtonBrowse_Click"/>
 		<Label x:Name="label" Content="Open The Directory with the Mp4 files" HorizontalAlignment="Left" Margin="144,55,0,0" VerticalAlignment="Top" Width="236"/>
 		<TextBox x:Name="textBoxPath" HorizontalAlignment="Left" Height="23" Margin="144,135,0,0" TextWrapping="Wrap" Text="Directory" VerticalAlignment="Top" Width="205"/>
-		<Button x:Name="button1" Content="START!" HorizontalAlignment="Left" Margin="216,246,0,0" VerticalAlignment="Top" Width="75"/>
+		<Button x:Name="ButtonStart" Content="START!" HorizontalAlignment="Left" Margin="216,246,0,0" VerticalAlignment="Top" Width="75" Click="ButtonStart_Click"/>
 
 	</Grid>
 </Window>
