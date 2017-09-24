@@ -17,6 +17,8 @@ namespace AutoChapsMp4
         //The folder to fix the mp4 files
         public String FolderPath { get; set; }
 
+        public String ActualFileName { get; set; }
+
         //The location of the mp4Chaps.exe
         public String mp4Chaps;
 
@@ -92,25 +94,51 @@ namespace AutoChapsMp4
                 //avoid starting multiple instances of the mp4chaps
                 Process.WaitForExit();
 
-                //Fix file name
-                FixFileName();
+                FileInfo fileInfo = new FileInfo(file);
+                string name = fileInfo.Name;
+                if (name.Contains("XXX"))
+                {
+                    string str = name.Replace('.', ' ');
+                    int length = str.IndexOf("XXX");
+                    string newName = str.Substring(0, length) + "XXX.mp4";
+                    fileInfo.Rename(newName);
+                }
 
-                //UpdateMetadaName();
+                UpdateMetadaName(fileInfo.FullName);
 
             }
         }
 
         //This requieres TagLib (AKA TagSharp Lib)
-        public void UpdateMetadaName(String name, String PathFile)
+        public void UpdateMetadaName(String PathFile)
         {
+            FileInfo fileINfo = new FileInfo(PathFile);
+
             var file = TagLib.File.Create(PathFile);
-            file.Tag.Title = name;
+            file.Tag.Title = Path.GetFileNameWithoutExtension(fileINfo.Name);
             file.Save();
         }
 
-        public void FixFileName()
+        public void FixFileName(string filePath)
         {
+            FileInfo fileInfo = new FileInfo(filePath);
+            string name = fileInfo.Name;
+            if (name.Contains("XXX"))
+            {
+                string str = name.Replace('.', ' ');
+                int length = str.IndexOf("XXX");
+                string newName = str.Substring(0, length) + "XXX.mp4";
+                fileInfo.Rename(newName);
 
+                ActualFileName = fileInfo.Name;
+                //System.IO.File.Move(name, newName);
+                //File.Move("sourcename.ext", "newname.ext");
+            }
+        }
+
+        public void Rename(FileInfo fileInfo, string newName)
+        {
+            fileInfo.MoveTo(fileInfo.Directory.FullName + "\\" + newName);
         }
 
         private void ButtonStart_Click(object sender, RoutedEventArgs e)
@@ -126,4 +154,6 @@ namespace AutoChapsMp4
 
         }
     }
+
+
 }
