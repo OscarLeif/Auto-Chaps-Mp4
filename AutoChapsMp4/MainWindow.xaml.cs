@@ -79,7 +79,7 @@ namespace AutoChapsMp4
         }
 
         private void createChapters()
-        {
+        {           
             //First get all the mp4 file from the 
             foreach (string file in Directory.GetFiles(FolderPath, "*mp4"))
             {
@@ -94,19 +94,19 @@ namespace AutoChapsMp4
                 //avoid starting multiple instances of the mp4chaps
                 Process.WaitForExit();
 
+                ///Rename file process
                 FileInfo fileInfo = new FileInfo(file);
                 string name = fileInfo.Name;
                 if (name.Contains("XXX"))
                 {
                     string str = name.Replace('.', ' ');
-                    int length = str.IndexOf("XXX");
+                    int length = str.LastIndexOf("XXX");
                     string newName = str.Substring(0, length) + "XXX.mp4";
                     fileInfo.Rename(newName);
                 }
 
                 UpdateMetadaName(fileInfo.FullName);
-
-            }
+            }           
         }
 
         //This requieres TagLib (AKA TagSharp Lib)
